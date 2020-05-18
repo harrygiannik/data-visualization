@@ -1,6 +1,12 @@
-function hideCountryBtn() {
-  document.getElementById('countrybtn').style.display= 'none';
-};
+function home(){
+	fetch('/', {
+    method: 'GET',
+    headers: {
+        'Content-type': 'text/html'
+    }
+	}).then(response => window.location.replace('/'))
+	.catch(error => console.error('Error:', error));
+}
 
 function processForm(e) {
   if (e.preventDefault) e.preventDefault();
@@ -64,7 +70,6 @@ function processForm(e) {
     }
   }
   
-  //TODO add var to body     console.log("SELECT " + columns + " FROM data WHERE " + where_clause + ";");
   const query = {q: "SELECT " + columns + " FROM data WHERE " + where_clause + ";"};
   console.log(typeof query);
   fetch('/query', {
@@ -73,8 +78,7 @@ function processForm(e) {
     headers: {
         'Content-type': 'text/plain'
     }
-  }).then(response => window.alert("Your query was alright!"))
-  .then(response => window.location.replace("/charts"))
+  }).then(response => window.location.replace("/chooseCharts"))
   .catch(error => console.error('Error:', error));
  
 }

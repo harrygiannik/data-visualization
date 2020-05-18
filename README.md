@@ -1,11 +1,8 @@
-# pvas
+# data-visualization
 
 ## TODO
 
-### https://www.youtube.com/playlist?list=PL4cUxeGkcC9gcy9lrvMJ75z9maRw4byYp node.js
+* Create cases for bar charts
+* Create line charts
+* Create scatterplot
 
-### mysqlworkbench
-
-### git basics
-
-### https://www.w3schools.com/nodejs/nodejs_mysql.asp

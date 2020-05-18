@@ -39,15 +39,34 @@ var server = http.createServer(function(req, res){
       res.writeHead(200, {'Content-Type': 'application/javascript'});
       fs.createReadStream(__dirname + '/indscripts.js').pipe(res);
       break;
-    
-    case '/charts':
+      
+    case '/chooseCharts':
+    	res.writeHead(200, {'Content-Type': 'text/html'});
+    	fs.createReadStream(__dirname + '/chooseCharts.html').pipe(res);
+    	break;
+    	
+    case '/chooseCharts.js':
+      res.writeHead(200, {'Content-Type': 'application/javascript'});
+      fs.createReadStream(__dirname + '/chooseCharts.js').pipe(res);
+      break;
+      
+    case '/barCharts':
       res.writeHead(200, {'Content-Type': 'text/html'});
-      fs.createReadStream(__dirname + '/charts.html').pipe(res);
+      fs.createReadStream(__dirname + '/barCharts.html').pipe(res);
       break;
     
-    case '/charts.js':
+    case '/barCharts.js':
       res.writeHead(200, {'Content-Type': 'application/javascript'});
-      fs.createReadStream(__dirname + '/charts.js').pipe(res);
+      fs.createReadStream(__dirname + '/barCharts.js').pipe(res);
+      break;
+    case '/lineCharts':
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      fs.createReadStream(__dirname + '/lineCharts.html').pipe(res);
+      break;
+    
+    case '/lineCharts.js':
+      res.writeHead(200, {'Content-Type': 'application/javascript'});
+      fs.createReadStream(__dirname + '/lineCharts.js').pipe(res);
       break;
     
     case '/getData':

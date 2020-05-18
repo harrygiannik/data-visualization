@@ -1,6 +1,26 @@
 var queryResults = {};
 var maxColumn = 2;
 
+function home(){
+	fetch('/', {
+    method: 'GET',
+    headers: {
+        'Content-type': 'text/html'
+    }
+	}).then(response => window.location.replace('/'))
+	.catch(error => console.error('Error:', error));
+}
+
+function goBack(){
+fetch('/chooseCharts', {
+    method: 'GET',
+    headers: {
+        'Content-type': 'text/html'
+    }
+	}).then(response => window.location.replace('/chooseCharts'))
+	.catch(error => console.error('Error:', error));
+}
+
 function getIndicName(s){
 	indicators ={"AG.LND.FRST.ZS": "Forest area %", "SH.XPD.CHEX.GD.ZS": "Current health expenditure %", "EG.ELC.ACCS.ZS": "Access to electricity %", "SE.PRM.UNER.MA.ZS": "Children out of school male %",
 	 "SE.PRM.UNER.FE.ZS": "Children out of school female %", "TM.VAL.FUEL.ZS.UN": "Fuel imports %",
