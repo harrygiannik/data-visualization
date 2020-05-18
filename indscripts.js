@@ -36,12 +36,12 @@ function processForm(e) {
   var countries = [alb, arg, aus, bgr, bra, chl, cub, cyp, cze, dnk, fra, grc];
   var indicators = [forest, health_expen, electricity, outschool_male, outschool_female, fuel_im, fuel_ex, military_expen, journal, unempl_male, unempl_female, tourism];
 
-  columns = ""
+  columns = "year, country_code, "
   for (let index = 0; index < indicators.length; index++) {
     
     const indicator = indicators[index];
     if (indicator.value) {
-      if (columns === ""){
+      if (columns === "year, country_code, "){
       	columns += "`" + indicator.code + "`";
     }
       else {

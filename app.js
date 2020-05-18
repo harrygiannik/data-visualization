@@ -1,8 +1,30 @@
 var mysql = require('mysql');
-
+var readline = require('readline');
 var http = require('http');
 var fs = require('fs');
+
 var queryResults = {};
+var passwd = "";
+
+//get mysql server password 
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.stdoutMuted = true;
+
+rl.question('mysql-server password: ', function(password) {
+  passwd = password;// store user input in var passwd
+  rl.close();
+});
+
+rl._writeToOutput = function _writeToOutput(stringToWrite) {
+  if (rl.stdoutMuted)
+    rl.output.write("*");
+  else
+    rl.output.write(stringToWrite);
+};
 
 var server = http.createServer(function(req, res){
   switch (req.url) {
@@ -29,7 +51,7 @@ var server = http.createServer(function(req, res){
       break;
     
     case '/getData':
-    	res.writeHead(200, {'Content-Type': 'text/plain-text'});
+    	res.writeHead(200, {'Content-Type': 'application/json'});
     	res.write(JSON.stringify(queryResults));
     	res.end();
        	break;
@@ -47,7 +69,7 @@ var server = http.createServer(function(req, res){
 		con = mysql.createConnection({
 			host: "localhost",
 			user: "root",
-			password: "",
+			password: passwd, //passwd for mysql password 
 			database: "world_bank_data"
 		});
 
@@ -59,7 +81,7 @@ var server = http.createServer(function(req, res){
 			if (err) throw err;
 			var values = JSON.stringify(result);
 			queryResults = JSON.parse(values);
-			//console.log(obj.length);
+			console.log(queryResults.length);
 			//console.log(obj[obj.length - 4][Object.keys(obj[obj.length - 4])[0]]);
 			
 			setTimeout(function(){}, 600);
@@ -79,7 +101,7 @@ var server = http.createServer(function(req, res){
 });
 
 server.listen(3011, '127.0.0.1');
-console.log("hello");
+
 
 
 /*con.connect(function(err) {
