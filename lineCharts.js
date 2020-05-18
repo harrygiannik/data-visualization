@@ -90,9 +90,25 @@ function draw(){
 				data4.push(data[i]);
 			}
 		}
+		
+	if(Object.keys(queryResults[1]).length - 2 > 1){
+			maxColumnValue = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]) 
+			for(i = 3; i < Object.keys(queryResults[1]).length; i++){
+				console.log(biggerData[Object.keys(queryResults[1])[3]]);
+				//first = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i-1]])
+				second = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i]])
+				if(maxColumnValue < second){
+					maxColumn = i;
+					maxColumnValue = second
+				}
+			}
+			
+		}
+		
 	if(data.length > 60){ //added for one counrty case!!!!!!!!!
-			tempMax = d3.max(data1, d => d[Object.keys(queryResults[1])[2]]);
-			currentMax = d3.max(data2, d => d[Object.keys(queryResults[1])[2]]);
+			
+			tempMax = d3.max(data1, d => d[Object.keys(queryResults[1])[maxColumn]]);
+			currentMax = d3.max(data2, d => d[Object.keys(queryResults[1])[maxColumn]]);
 			
 			if(tempMax > currentMax){
 				biggerData = data1; 
@@ -116,42 +132,22 @@ function draw(){
 			}
 	}
 	
-	if(Object.keys(queryResults[1]).length - 2 > 1){
-			maxColumnValue = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]) 
-			for(i = 3; i < Object.keys(queryResults[1]).length; i++){
-				console.log(biggerData[Object.keys(queryResults[1])[3]]);
-				//first = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i-1]])
-				second = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i]])
-				if(maxColumnValue < second){
-					maxColumn = i;
-					maxColumnValue = second
-				}
-			}
-			
-		}
-    // 6. Y scale will use the randomly generate number 
+	
     var yScale = d3.scaleLinear()
         .domain([0, d3.max(biggerData, d => d[Object.keys(queryResults[1])[maxColumn]])]) // input 
         .range([height, 0]); // output 
 
-    // 7. d3's line generator
     var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
         .y(function(d) { return yScale(d[Object.keys(queryResults[1])[2]]); }) // set the y values for the line generator 
         .curve(d3.curveMonotoneX) // apply smoothing to the line
 
-    
-    // 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
-    //var dataset = d3.range(n).map(function(d) { return {"y": d3.randomUniform(1)() } })
-
-    // 1. Add the SVG to the page and employ #2
     var svg = d3.select("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
     .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // 3. Call the x axis in a group tag
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
@@ -245,7 +241,7 @@ function draw(){
 		document.getElementById("legend").appendChild(line4color);
     }
 	
-	if(Object.keys(queryResults[1]).length > 3){ //added for one counrty case!!!!!!!!!
+	if(Object.keys(queryResults[1]).length > 3 && data.length === 60){ 
 		
 		var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
@@ -270,7 +266,7 @@ function draw(){
 		document.getElementById("legend").appendChild(indicator2Color);
 	}
 	
-	if(Object.keys(queryResults[1]).length > 4){ //added for one counrty case!!!!!!!!!
+	if(Object.keys(queryResults[1]).length > 4 && data.length === 60){ //added for one counrty case!!!!!!!!!
 		
 		var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
@@ -295,7 +291,7 @@ function draw(){
 		document.getElementById("legend").appendChild(indicator3Color);
 	}
 	
-	if(Object.keys(queryResults[1]).length > 5){ //added for one counrty case!!!!!!!!!
+	if(Object.keys(queryResults[1]).length > 5 && data.length === 60){ //added for one counrty case!!!!!!!!!
 		
 		var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
@@ -318,6 +314,48 @@ function draw(){
 		bdot.style.color = "peru";
 		document.getElementById("legend").appendChild(bdot);
 		document.getElementById("legend").appendChild(indicator4Color);
+	}
+	
+	if (data.length === 120 && Object.keys(queryResults[1]).length > 3){
+		var line = d3.line()
+        .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
+        .y(function(d) { return yScale(d[Object.keys(queryResults[1])[3]]); })
+        .curve(d3.curveMonotoneX) // apply smoothing to the line
+				
+		svg.append("path")
+        .datum(data1) // 10. Binds data to the line 
+        .attr("class", "line") // Assign a class for styling 
+        .attr("stroke", "seagreen")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line); // 11. Calls the line generator 
+		var line3color = document.createElement("P");
+		line3color.style.float = "center";
+		line3color.innerText = " " + getIndicName(data1[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[3]);
+		var ydot = document.createElement("P");
+		ydot.innerText = "\u220E";
+		ydot.style.float = "left";
+		ydot.style.color = "seagreen";
+		document.getElementById("legend").appendChild(ydot);
+		document.getElementById("legend").appendChild(line3color);
+		
+		svg.append("path")
+        .datum(data2) // 10. Binds data to the line 
+        .attr("class", "line") // Assign a class for styling 
+        .attr("stroke", "peru")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line);
+        
+        var line4color = document.createElement("P");
+		line4color.style.float = "center";
+		line4color.innerText = " " + getIndicName(data2[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[3]);
+		var steelblueDot = document.createElement("P");
+		steelblueDot.innerText = "\u220E";
+		steelblueDot.style.float = "left";
+		steelblueDot.style.color = "peru";
+		document.getElementById("legend").appendChild(steelblueDot);
+		document.getElementById("legend").appendChild(line4color);
 	}
 	
 	
