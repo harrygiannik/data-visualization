@@ -33,23 +33,50 @@ function processForm(e) {
       forest, health_expen, electricity, outschool_male, outschool_female, fuel_im, 
       fuel_ex, military_expen, journal, unempl_male, unempl_female, tourism];
 
-  for (let index = 0; index < arr.length; index++) {
-    const element = arr[index];
-    if (element.value) {
-      form_content.push(element.code);
+  var countries = [alb, arg, aus, bgr, bra, chl, cub, cyp, cze, dnk, fra, grc];
+  var indicators = [forest, health_expen, electricity, outschool_male, outschool_female, fuel_im, fuel_ex, military_expen, journal, unempl_male, unempl_female, tourism];
+
+  columns = ""
+  for (let index = 0; index < indicators.length; index++) {
+    
+    const indicator = indicators[index];
+    if (indicator.value) {
+      if (columns === ""){
+      	columns += "`" + indicator.code + "`";
+    }
+      else {
+    	columns += ", `" + indicator.code + "`";
+      }
     }
   }
-  /*
-  fetch('/event_creation', {
-    method: 'POST',
-    body: JSON.stringify(myJson),
-    headers: {
-      'Content-Type': 'application/json'
+  
+  where_clause = "country_code = '"
+  for (let index = 0; index < countries.length; index++) {
+    
+    const country = countries[index];
+    if (country.value) {
+      if (where_clause === "country_code = '"){
+      	where_clause += country.code + "'";
     }
-  }).then(response => window.alert("Your request has been completed successfully!"))
-  .then(response => window.location.replace('/'))
+      else {
+    	where_clause += " or country_code = '" + country.code +"'" ;
+      }
+    }
+  }
+  
+  //TODO add var to body     console.log("SELECT " + columns + " FROM data WHERE " + where_clause + ";");
+  const query = {q: "SELECT " + columns + " FROM data WHERE " + where_clause + ";"};
+  console.log(typeof query);
+  fetch('/query', {
+    method: 'POST',
+    body: "SELECT " + columns + " FROM data WHERE " + where_clause + ";",
+    headers: {
+        'Content-type': 'text/plain'
+    }
+  }).then(response => window.alert("Your query was alright!"))
+  .then(response => window.location.replace("/charts"))
   .catch(error => console.error('Error:', error));
-  */
+ 
 }
 
 var form_content = [];
