@@ -9,6 +9,9 @@ function home(){
 }
 
 function processForm(e) {
+  var country_counter = 0;
+  var indicator_counter = 0;
+  
   if (e.preventDefault) e.preventDefault();
 
   var alb = {code: document.getElementById("ALB").id, value: document.getElementById("ALB").checked};
@@ -47,6 +50,7 @@ function processForm(e) {
     
     const indicator = indicators[index];
     if (indicator.value) {
+      indicator_counter += 1;
       if (columns === "year, country_code, "){
       	columns += "`" + indicator.code + "`";
     }
@@ -61,6 +65,7 @@ function processForm(e) {
     
     const country = countries[index];
     if (country.value) {
+      country_counter += 1;
       if (where_clause === "country_code = '"){
       	where_clause += country.code + "'";
     }
@@ -71,15 +76,26 @@ function processForm(e) {
   }
   
   const query = {q: "SELECT " + columns + " FROM data WHERE " + where_clause + ";"};
-  console.log(typeof query);
-  fetch('/query', {
-    method: 'POST',
-    body: "SELECT " + columns + " FROM data WHERE " + where_clause + ";",
-    headers: {
-        'Content-type': 'text/plain'
-    }
-  }).then(response => window.location.replace("/chooseCharts"))
-  .catch(error => console.error('Error:', error));
+  if ((country_counter === 2 && indicator_counter === 2) || (country_counter < 5 && country_counter !== 0 && indicator_counter === 1) || (indicator_counter < 5 && indicator_counter !== 0 && country_counter === 1)){
+	  fetch('/query', {
+		method: 'POST',
+		body: "SELECT " + columns + " FROM data WHERE " + where_clause + ";",
+		headers: {
+		    'Content-type': 'text/plain'
+		}
+	  }).then(response => window.location.replace("/chooseCharts"))
+	  .catch(error => console.error('Error:', error));
+  }
+  else{
+  	fetch('/', {
+		method: 'GET',
+		headers: {
+		    'Content-type': 'text/plain'
+		}
+	  }).then(response => window.alert("Please select again countries and indicators following the instructions, by clicking the Help button."))
+	  .then(response => window.location.replace("/"))
+	  .catch(error => console.error('Error:', error));
+  }
  
 }
 
