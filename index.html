@@ -4,28 +4,144 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body style = "background-color:rgb(236, 236, 236);">
+<body style = "background-color:#ffffe6;">
 <div class="container">
-	
+
 	<div class="row">
-		<div class="col-md-2"></div>
-		<div class ="col-md-8">
+		<div class ="col-md-12">
 			</br>
-			<h1 class="text-center">Please select some countries && some indicators.</h1>
-			</br>
+			<h1 class="text-center">Graphs for different indicators based on worldwide data</h1>
 			</br>
 			</br>
 			</br>
 		</div>
-		<div class="col-md-2"></div>
+	</div>
+	<div class="row text-center">
+		<div class = "col-md-12">
+			<form id="form">
+				<div class="row">
+					<div class="col-md-6 ">
+						<br>
+						<h3>Select countries</h3><br>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="ALB">
+							<label class="form-check-label" for="ALB">Albania</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="ARG">
+							<label class="form-check-label" for="ARG">Argentina</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="AUS">
+							<label class="form-check-label" for="AUS">Australia</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="BGR">
+							<label class="form-check-label" for="BGR">Bulgaria</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="BRA">
+							<label class="form-check-label" for="BRA">Brazil</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="CHL">
+							<label class="form-check-label" for="CHL">Chile</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="CUB">
+							<label class="form-check-label" for="CUB">Cuba</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="CYP">
+							<label class="form-check-label" for="CYP">Cyprus</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="CZE">
+							<label class="form-check-label" for="CZE">Czech Republic</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="DNK">
+							<label class="form-check-label" for="DNK">Denmark</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="FRA">
+							<label class="form-check-label" for="FRA">France</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="GRC">
+							<label class="form-check-label" for="GRC">Greece</label>
+						</div>
+
+					</div>
+					<div class="col-md-6">
+						<br>
+						<h3>Select indicators</h3><br>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="AG.LND.FRST.ZS">
+						 	<label class="form-check-label" for="AG.LND.FRST.ZS">Forest area %</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="SH.XPD.CHEX.GD.ZS">
+							<label class="form-check-label" for="SH.XPD.CHEX.GD.ZS">Current health expenditure %</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="EG.ELC.ACCS.ZS">
+						 	<label class="form-check-label" for="EG.ELC.ACCS.ZS">Access to electricity %</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="SE.PRM.UNER.MA.ZS">
+							<label class="form-check-label" for="SE.PRM.UNER.MA.ZS">Children out of school male %</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="SE.PRM.UNER.FE.ZS">
+						 	<label class="form-check-label" for="SE.PRM.UNER.FE.ZS">Children out of school female %</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="TM.VAL.FUEL.ZS.UN">
+							<label class="form-check-label" for="TM.VAL.FUEL.ZS.UN">Fuel imports %</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="TX.VAL.FUEL.ZS.UN">
+							<label class="form-check-label" for="TX.VAL.FUEL.ZS.UN">Fuel exports %</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="MS.MIL.XPND.GD.ZS">
+							<label class="form-check-label" for="MS.MIL.XPND.GD.ZS">Military expenditure %GDP</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="IP.JRN.ARTC.SC">
+						 	<label class="form-check-label" for="IP.JRN.ARTC.SC">Scientific and technical journal articles</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="SL.UEM.1524.MA.NE.ZS">
+							<label class="form-check-label" for="SL.UEM.1524.MA.NE.ZS">Unemployement youth male % (15-24) </label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="SL.UEM.1524.FE.NE.ZS">
+							<label class="form-check-label" for="SL.UEM.1524.MA.NE.ZS">Unemployement youth female % (15-24) </label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="ST.INT.ARVL">
+							<label class="form-check-label" for="ST.INT.ARVL">International tourism arrivals (*10k)</label>
+						</div>
+					</div>
+				</div><br>
+				<button type="submit" class="btn btn-dark btn-lg" onclick="processForm();">Submit</button>
+			</form>
+		</div>
+		
 	</div>
 	
-	
-	
-	
+
+
+
+
+
 </div>
+<script src="/indscripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
-</html> 
+</html>
+
