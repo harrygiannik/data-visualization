@@ -66,19 +66,72 @@ function draw(){
   , width = 1600 - margin.left - margin.right // Use the window's width 
   , height = 600 - margin.top - margin.bottom; // Use the window's height
 
-    // The number of datapoints
-    //var n = 21;
     d3.json("/getData", function(error, data) {
-    // 5. X scale will use the index of our data
     var xExtent = d3.extent(data, d => d.year);
     var xScale = d3.scaleBand().rangeRound([0, width])	
     	.domain(data.map(d => d.year));
-   // var xAxis = d3.axisBottom().scale(xScale);
     
-   
+   	data1 = []
+   	data2 = []
+   	data3 = []
+   	data4 = []
+   	biggerData = data;
+   	for (var i = 0; i < data.length; i++){
+			if (i < 60){
+				data1.push(data[i]);
+			}
+			else if (i < 120){
+				data2.push(data[i]);
+			}
+			else if(i < 180){
+				data3.push(data[i]);
+			}
+			else{
+				data4.push(data[i]);
+			}
+		}
+	if(data.length > 60){ //added for one counrty case!!!!!!!!!
+			tempMax = d3.max(data1, d => d[Object.keys(queryResults[1])[2]]);
+			currentMax = d3.max(data2, d => d[Object.keys(queryResults[1])[2]]);
+			
+			if(tempMax > currentMax){
+				biggerData = data1; 
+			}
+			else{
+				biggerData = data2;
+			}
+	}
+	if(data.length > 120){ //added for one counrty case!!!!!!!!!
+			tempMax = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]);
+			currentMax = d3.max(data3, d => d[Object.keys(queryResults[1])[2]]);
+			if(tempMax < currentMax){
+				biggerData = data3; 
+			}
+	}
+	if(data.length > 180){ //added for one counrty case!!!!!!!!!
+			tempMax = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]);
+			currentMax = d3.max(data4, d => d[Object.keys(queryResults[1])[2]]);
+			if(tempMax < currentMax){
+				biggerData = data4; 
+			}
+	}
+	
+	if(Object.keys(queryResults[1]).length - 2 > 1){
+			maxColumnValue = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]) 
+			for(i = 3; i < Object.keys(queryResults[1]).length; i++){
+				console.log(biggerData[Object.keys(queryResults[1])[3]]);
+				//first = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i-1]])
+				second = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i]])
+				if(maxColumnValue < second){
+					maxColumn = i;
+					maxColumnValue = second
+				}
+			}
+			
+		}
     // 6. Y scale will use the randomly generate number 
     var yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d[Object.keys(queryResults[1])[2]])]) // input 
+        .domain([0, d3.max(biggerData, d => d[Object.keys(queryResults[1])[maxColumn]])]) // input 
         .range([height, 0]); // output 
 
     // 7. d3's line generator
@@ -87,6 +140,7 @@ function draw(){
         .y(function(d) { return yScale(d[Object.keys(queryResults[1])[2]]); }) // set the y values for the line generator 
         .curve(d3.curveMonotoneX) // apply smoothing to the line
 
+    
     // 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
     //var dataset = d3.range(n).map(function(d) { return {"y": d3.randomUniform(1)() } })
 
@@ -116,18 +170,156 @@ function draw(){
 
     // 9. Append the path, bind the data, and call the line generator 
     svg.append("path")
-        .datum(data) // 10. Binds data to the line 
+        .datum(data1) // 10. Binds data to the line 
         .attr("class", "line") // Assign a class for styling 
         .attr("stroke", "red")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
         .attr("d", line); // 11. Calls the line generator 
     var line1color = document.createElement("P");
     line1color.style.float = "center";
-    line1color.innerText = " " + getIndicName(data[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[2]);
+    line1color.innerText = " " + getIndicName(data1[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[2]);
     var ydot = document.createElement("P");
     ydot.innerText = "\u220E";
     ydot.style.float = "left";
     ydot.style.color = "red";
     document.getElementById("legend").appendChild(ydot);
     document.getElementById("legend").appendChild(line1color);
-		});
+	
+	if (data.length > 60){
+   		svg.append("path")
+        .datum(data2) // 10. Binds data to the line 
+        .attr("class", "line") // Assign a class for styling 
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line);
+        
+        var line2color = document.createElement("P");
+		line2color.style.float = "center";
+		line2color.innerText = " " + getIndicName(data2[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[2]);
+		var steelblueDot = document.createElement("P");
+		steelblueDot.innerText = "\u220E";
+		steelblueDot.style.float = "left";
+		steelblueDot.style.color = "steelblue";
+		document.getElementById("legend").appendChild(steelblueDot);
+		document.getElementById("legend").appendChild(line2color);
+    }
+    if (data.length > 120){
+
+   		svg.append("path")
+        .datum(data3) // 10. Binds data to the line 
+        .attr("class", "line") // Assign a class for styling 
+        .attr("stroke", "seagreen")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line);
+
+        var line3color = document.createElement("P");
+		line3color.style.float = "center";
+		line3color.innerText = " " + getIndicName(data3[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[2]);
+		var bdot = document.createElement("P");
+		bdot.innerText = "\u220E";
+		bdot.style.float = "left";
+		bdot.style.color = "seagreen";
+		document.getElementById("legend").appendChild(bdot);
+		document.getElementById("legend").appendChild(line3color);
+    }
+    if (data.length > 180){
+   	
+   		svg.append("path")
+        .datum(data4)  
+        .attr("class", "line") 
+        .attr("stroke", "peru")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line);
+        var line4color = document.createElement("P");
+		line4color.style.float = "center";
+		line4color.innerText = " " + getIndicName(data4[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[2]);
+		var pdot = document.createElement("P");
+		pdot.innerText = "\u220E";
+		pdot.style.float = "left";
+		pdot.style.color = "peru";
+		document.getElementById("legend").appendChild(pdot);
+		document.getElementById("legend").appendChild(line4color);
+    }
+	
+	if(Object.keys(queryResults[1]).length > 3){ //added for one counrty case!!!!!!!!!
+		
+		var line = d3.line()
+        .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
+        .y(function(d) { return yScale(d[Object.keys(queryResults[1])[3]]); })
+        .curve(d3.curveMonotoneX) // apply smoothing to the line
+		
+		svg.append("path")
+        .datum(data1)  
+        .attr("class", "line") 
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line);
+		var indicator2Color = document.createElement("P");
+		indicator2Color.style.float = "center";
+		indicator2Color.innerText = " " + getIndicName(data1[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[3]);
+		var bdot = document.createElement("P");
+		bdot.innerText = "\u220E";
+		bdot.style.float = "left";
+		bdot.style.color = "steelblue";
+		document.getElementById("legend").appendChild(bdot);
+		document.getElementById("legend").appendChild(indicator2Color);
+	}
+	
+	if(Object.keys(queryResults[1]).length > 4){ //added for one counrty case!!!!!!!!!
+		
+		var line = d3.line()
+        .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
+        .y(function(d) { return yScale(d[Object.keys(queryResults[1])[4]]); })
+        .curve(d3.curveMonotoneX) // apply smoothing to the line
+		
+		svg.append("path")
+        .datum(data1)  
+        .attr("class", "line") 
+        .attr("stroke", "seagreen")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line);
+		var indicator3Color = document.createElement("P");
+		indicator3Color.style.float = "center";
+		indicator3Color.innerText = " " + getIndicName(data1[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[4]);
+		var bdot = document.createElement("P");
+		bdot.innerText = "\u220E";
+		bdot.style.float = "left";
+		bdot.style.color = "seagreen";
+		document.getElementById("legend").appendChild(bdot);
+		document.getElementById("legend").appendChild(indicator3Color);
+	}
+	
+	if(Object.keys(queryResults[1]).length > 5){ //added for one counrty case!!!!!!!!!
+		
+		var line = d3.line()
+        .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
+        .y(function(d) { return yScale(d[Object.keys(queryResults[1])[5]]); })
+        .curve(d3.curveMonotoneX) // apply smoothing to the line
+		
+		svg.append("path")
+        .datum(data1)  
+        .attr("class", "line") 
+        .attr("stroke", "peru")
+        .attr("stroke-width", "2")
+        .attr("fill", "none")
+        .attr("d", line);
+		var indicator4Color = document.createElement("P");
+		indicator4Color.style.float = "center";
+		indicator4Color.innerText = " " + getIndicName(data1[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[5]);
+		var bdot = document.createElement("P");
+		bdot.innerText = "\u220E";
+		bdot.style.float = "left";
+		bdot.style.color = "peru";
+		document.getElementById("legend").appendChild(bdot);
+		document.getElementById("legend").appendChild(indicator4Color);
+	}
+	
+	
+	});
 }

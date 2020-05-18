@@ -126,7 +126,6 @@ function draw(){
 				//first = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i-1]])
 				second = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i]])
 				if(maxColumnValue < second){
-					console.log("XRONIA POLL KYR NIKO");
 					maxColumn = i;
 					maxColumnValue = second
 				}
