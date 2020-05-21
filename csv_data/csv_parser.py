@@ -29,25 +29,6 @@ def fill_new_list():
 	output_list = []
 
 	for i in range (60):
-	'''
-	#TODO add id column
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	'''
 		output_list.append(['', '', '', '', '', '', '', '', '', '', '', '', '', ''])
 
 
@@ -64,10 +45,34 @@ def fill_new_list():
 	for i in range (len(output_list)):
 		for j in range (len(output_list[i])):
 			if output_list[i][j] == '':
-				print("yes")
 				output_list[i][j] = '\\N'
 	
 	return output_list
+def compute_avg(list_, years):
+	all_counrties_list =[]
+	sum_list = [0.0]*12
+	not_null_years = [0]*12
+	for i in range(len(list_)):
+		grouped_list=[]
+		for r in range (0, 60, years):
+			sum_list = [0.0]*12
+			not_null_years = [0]*12
+			for j in range(years):
+				for l in range (12):
+					if list_[i][r+j][l+1] != '\\N':
+						sum_list[l] += float(list_[i][r+j][l+1])
+						not_null_years[l] += 1
+			for k in range(12):
+				if not_null_years[k] == 0:
+					sum_list[k] = '\\N'
+				else:
+					sum_list[k] = sum_list[k]/not_null_years[k]
+					
+			sum_list.append(1960 + r)
+			sum_list.insert(0, list_[i][0][0])
+			grouped_list.append(sum_list)
+		all_counrties_list.append(grouped_list)
+	return all_counrties_list
 
 final_list = []
 for c in country_list:
@@ -80,14 +85,25 @@ for c in country_list:
 
 	final_list.append(fill_new_list())
 print(len(final_list))
-
-
+average_3_years = compute_avg(final_list, 3)
+average_5_years = compute_avg(final_list, 5)
+average_10_years = compute_avg(final_list, 10)
 with open('output.csv', 'w', newline='') as file:
-    for i in range (12):
+    for i in range (len(final_list)):
         writer = csv.writer(file)
         writer.writerows(final_list[i])
 
+with open('data_3_years_avg.csv', 'w', newline='') as file:
+    for i in range (len(average_3_years)):
+        writer = csv.writer(file)
+        writer.writerows(average_3_years[i])
 
+with open('data_5_years_avg.csv', 'w', newline='') as file:
+    for i in range (len(average_5_years)):
+        writer = csv.writer(file)
+        writer.writerows(average_5_years[i])
 
-
-
+with open('data_10_years_avg.csv', 'w', newline='') as file:
+    for i in range (len(average_10_years)):
+        writer = csv.writer(file)
+        writer.writerows(average_10_years[i])
