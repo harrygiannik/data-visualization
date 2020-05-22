@@ -4,19 +4,15 @@ function group(x){
   switch (x){
     case 0:
       group_list = [1,0,0,0];
-      console.log("button 0");
       break;
     case 1:
       group_list = [0,1,0,0];
-      console.log("button 1");
       break;
     case 2: 
       group_list = [0,0,1,0];
-      console.log("button 2");
       break;
     case 3:
       group_list = [0,0,0,1];
-      console.log("button 3");
       break;
     default:
       group_list = [1,0,0,0];
@@ -114,12 +110,12 @@ function processForm(e) {
   }
 
   
-  const query = {q: "SELECT " + columns + " FROM " + from + " WHERE " + where_clause + ";"};
-  console.log(query);
+  //const query = {q: "SELECT " + columns + " FROM " + from + " WHERE " + where_clause + ";"};
+  //console.log(query);
   if ((country_counter === 2 && indicator_counter === 2) || (country_counter < 5 && country_counter !== 0 && indicator_counter === 1) || (indicator_counter < 5 && indicator_counter !== 0 && country_counter === 1)){
 	  fetch('/query', {
 		method: 'POST',
-		body: "SELECT " + columns + " FROM data WHERE " + where_clause + ";",
+		body: "SELECT " + columns + " FROM "+ from +" WHERE " + where_clause + ";",
 		headers: {
 		    'Content-type': 'text/plain'
 		}
