@@ -61,6 +61,10 @@ function home(){
 	.catch(error => console.error('Error:', error));
 }
 
+function help(){
+	window.alert("Please follow the instructions below. \n\nBar chart: Select up to 3 countries and 1 indicator or 1 country and up to 3 indicators.\n\nLine chart: Select up to 4 countries and 1 indicator or 1 country and up to 4 indicators\n\nor 2 countries and 2 indicators.\n\nScatter plot: Select 1 country and 2 indicators.");
+}
+
 function processForm(e) {
   var country_counter = 0;
   var indicator_counter = 0;
@@ -144,7 +148,9 @@ function processForm(e) {
   
   //const query = {q: "SELECT " + columns + " FROM " + from + " WHERE " + where_clause + ";"};
   //console.log(query);
-  if ((country_counter === 2 && indicator_counter === 2) || (country_counter < 5 && country_counter !== 0 && indicator_counter === 1) || (indicator_counter < 5 && indicator_counter !== 0 && country_counter === 1)){
+  if ((country_counter === 2 && indicator_counter === 2) || 
+  	(country_counter < 5 && country_counter !== 0 && indicator_counter === 1) || 
+  	(indicator_counter < 5 && indicator_counter !== 0 && country_counter === 1)){
 	  fetch('/query', {
 		method: 'POST',
 		body: "SELECT " + columns + " FROM "+ from +" WHERE " + where_clause + ";",

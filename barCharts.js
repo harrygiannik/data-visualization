@@ -61,7 +61,7 @@ function getCountOfCountries(){
 		headers: {
 			'Content-type': 'application/json'
 	}
-	}).then(res => {;
+	}).then(res => {
 		return res.json();
 	}).then(res => {
 		countriesCount = res.count;
