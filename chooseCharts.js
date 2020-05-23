@@ -31,7 +31,13 @@ function lineChart(){
 }
 
 function scatter(){
-	
+	fetch('/scatterPlots', {
+		method: 'GET',
+		headers: {
+			'Content-type': 'text/html'
+		}
+		}).then(response => window.location.replace('/scatterPlots'))
+		.catch(error => console.error('Error:', error));
 }
 
 function controlElements(){

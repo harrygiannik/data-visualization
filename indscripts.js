@@ -4,15 +4,47 @@ function group(x){
   switch (x){
     case 0:
       group_list = [1,0,0,0];
+      var p0 = document.getElementById("p0");
+      p0.style.display = "initial";
+      var p1 = document.getElementById("p1");
+      p1.style.display = "none";
+      var p2 = document.getElementById("p2");
+      p2.style.display = "none";
+      var p3 = document.getElementById("p3");
+      p3.style.display = "none";
       break;
     case 1:
       group_list = [0,1,0,0];
+      var p0 = document.getElementById("p0");
+      p0.style.display = "none";
+      var p1 = document.getElementById("p1");
+      p1.style.display = "initial";
+      var p2 = document.getElementById("p2");
+      p2.style.display = "none";
+      var p3 = document.getElementById("p3");
+      p3.style.display = "none";
       break;
     case 2: 
       group_list = [0,0,1,0];
+      var p0 = document.getElementById("p0");
+      p0.style.display = "none";
+      var p1 = document.getElementById("p1");
+      p1.style.display = "none";
+      var p2 = document.getElementById("p2");
+      p2.style.display = "initial";
+      var p3 = document.getElementById("p3");
+      p3.style.display = "none";
       break;
     case 3:
       group_list = [0,0,0,1];
+      var p0 = document.getElementById("p0");
+      p0.style.display = "none";
+      var p1 = document.getElementById("p1");
+      p1.style.display = "none";
+      var p2 = document.getElementById("p2");
+      p2.style.display = "none";
+      var p3 = document.getElementById("p3");
+      p3.style.display = "initial";
       break;
     default:
       group_list = [1,0,0,0];

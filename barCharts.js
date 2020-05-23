@@ -1,5 +1,6 @@
 var queryResults = {};
 var maxColumn = 2;
+var countriesCount = 0;
 
 function home(){
 	fetch('/', {
@@ -50,13 +51,24 @@ function getData() {
 		return data.json()
 	}).then(res => {queryResults = res;
 		return queryResults;
+	}).then(res => {getCountOfCountries();})
+	.catch(error => console.error('Error:', error));
+
+}	
+function getCountOfCountries(){
+	fetch('/countriesCount', {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+	}
+	}).then(res => {;
+		return res.json();
+	}).then(res => {
+		countriesCount = res.count;
 	}).then(res => {draw();})
 	.catch(error => console.error('Error:', error));
 
-    console.log("after fetch");
-	//setTimeout(function(){ }, 2000);
-}	
-
+}
 function draw(){	
 	var svg = d3.select("svg"),
 	  margin = {top: 20, right: 20, bottom: 30, left: 100},
@@ -70,34 +82,32 @@ function draw(){
 	var legend = document.getElementById("legend");
 	legend.style.overflow = "hidden";
 	d3.json("/getData", function(error, data) {
-		
+		var linesOfCountry = data.length/countriesCount;	
 		data1 = [];
 		data2 = [];
 		data3 = [];
 		biggerData = data; //added for one counrty case!!!!!!!!!
-
-		countOfBars = Math.max(data.length/60, Object.keys(queryResults[1]).length - 2);
+		
+		countOfBars = Math.max(data.length/linesOfCountry, Object.keys(queryResults[1]).length - 2);
 		
 		bandwidthFlag = 1;
 		if (countOfBars === 1)
 			bandwidthFlag = 0;
 		for (var i = 0; i < data.length; i++){
-			if (i < 60){
+			if (i < linesOfCountry){
 				data1.push(data[i]);
 			}
-			else if (i < 120){
+			else if (i < (linesOfCountry * 2)){
 				data2.push(data[i]);
 			}
 			else{
 				data3.push(data[i]);
 			}
 		}
-		//console.log(data3);
 		x0.domain(data.map(d => d.year));
-		//x1.domain(data2.map(d => d.year));
 		x1.domain(['year', 'year']).range([0, x0.bandwidth()]);
 		
-		if(data.length > 60){ //added for one counrty case!!!!!!!!!
+		if(data.length > linesOfCountry){ //added for one counrty case!!!!!!!!!
 			tempMax = d3.max(data1, d => d[Object.keys(queryResults[1])[2]]);
 			currentMax = d3.max(data2, d => d[Object.keys(queryResults[1])[2]]);
 
@@ -108,13 +118,10 @@ function draw(){
 				biggerData = data2;
 			}
 		}
-		//console.log("<");
-		//console.log(biggerData);
-		if(data.length > 120){ //added for one counrty case!!!!!!!!!
+		if(data.length > (2 * linesOfCountry)){ //added for one counrty case!!!!!!!!!
 			tempMax = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]);
 			currentMax = d3.max(data3, d => d[Object.keys(queryResults[1])[2]]);
 			if(currentMax > tempMax){
-				console.log("data2 smaller");
 				biggerData = data3; 
 			}
 		}
@@ -122,8 +129,6 @@ function draw(){
 		if(Object.keys(queryResults[1]).length - 2 > 1){
 			maxColumnValue = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]) 
 			for(i = 3; i < Object.keys(queryResults[1]).length; i++){
-				console.log(biggerData[Object.keys(queryResults[1])[3]]);
-				//first = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i-1]])
 				second = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i]])
 				if(maxColumnValue < second){
 					maxColumn = i;
@@ -158,8 +163,6 @@ function draw(){
 		.attr("fill", "black");
 	
 		
-		//TODO check for the case of two indicators so we can add to legend
-		// the indicator name and no the country_code
 		g.selectAll(".bar.country1") 
 		.data(data1) 
 		.enter().append("rect") 
@@ -182,7 +185,7 @@ function draw(){
 		document.getElementById("legend").appendChild(country1color);
 		
 		
-		if(data.length > 60){ //added for one counrty case!!!!!!!!!
+		if(data.length > linesOfCountry){ //added for one counrty case!!!!!!!!!
 		g.selectAll(".bar.country2") 
 		.data(data2) 
 		.enter().append("rect") 
@@ -204,7 +207,7 @@ function draw(){
 		document.getElementById("legend").appendChild(bdot);
 		document.getElementById("legend").appendChild(country2color);
 		}
-		if(data.length > 120){ //added for one counrty case!!!!!!!!!
+		if(data.length > (2 * linesOfCountry)){ //added for one counrty case!!!!!!!!!
 			g.selectAll(".bar.country3") 
 			.data(data3) 
 			.enter().append("rect") 
@@ -273,22 +276,4 @@ function draw(){
 
 		
 
-	/*
-		const lineSvg = d3.select("#svg2"),
-		lineMargin = {top: 20, right: 20, bottom: 30, left: 100},
-		lineWidth = +lineSvg.attr("width")  - lineMargin.left - lineMargin.right,
-		lineHeight = +lineSvg.attr("height") - lineMargin.top  - lineMargin.bottom,
-		x2 = d3.scaleBand().rangeRound([0, lineWidth]).padding(.2),
-		x3 = d3.scaleBand(),
-		y1 = d3.scaleLinear().rangeRound([lineHeight, 0]),
-		g1 = lineSvg.append("g")	
-					 .attr("transform", `translate(100, 700)`);
-		g1.append("g1");
-	//	.append("circle")
-	//	.attr("cx", lineWidth)
-	//	.attr("cy", lineWidth)
-	//	.attr("r", 25)
-	//	.style("fill", "purple");
-		console.log(lineHeight);
-	*/
 }

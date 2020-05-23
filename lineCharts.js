@@ -1,5 +1,6 @@
 var queryResults = {};
 var maxColumn = 2;
+var countriesCount = 0;
 
 function home(){
 	fetch('/', {
@@ -50,21 +51,29 @@ function getData() {
 		return data.json()
 	}).then(res => {queryResults = res;
 		return queryResults;
+	}).then(res => {getCountOfCountries();})
+	.catch(error => console.error('Error:', error));
+    
+}	
+function getCountOfCountries(){
+	fetch('/countriesCount', {
+		method: 'POST',
+		headers: {
+			'Content-type': 'application/json'
+	}
+	}).then(res => {;
+		return res.json();
+	}).then(res => {
+		countriesCount = res.count;
 	}).then(res => {draw();})
 	.catch(error => console.error('Error:', error));
 
-    /* 
-    EXAMPLE LINK:
-    https://bl.ocks.org/pstuffa/26363646c478b2028d36e7274cedefa6
-    */
-    
-}	
-
+}
 
 function draw(){	
-	var margin = {top: 50, right: 50, bottom: 50, left: 100}
-  , width = 1600 - margin.left - margin.right // Use the window's width 
-  , height = 600 - margin.top - margin.bottom; // Use the window's height
+	var margin = {top: 50, right: 50, bottom: 50, left: 100},
+		width = 1600 - margin.left - margin.right, 
+		height = 600 - margin.top - margin.bottom; // Use the window's height
 
     d3.json("/getData", function(error, data) {
     var xExtent = d3.extent(data, d => d.year);
@@ -76,25 +85,25 @@ function draw(){
    	data3 = []
    	data4 = []
    	biggerData = data;
+   	var linesOfCountry = data.length/countriesCount;
    	for (var i = 0; i < data.length; i++){
-			if (i < 60){
+			if (i < linesOfCountry){
 				data1.push(data[i]);
 			}
-			else if (i < 120){
+			else if (i < (2 * linesOfCountry)){
 				data2.push(data[i]);
 			}
-			else if(i < 180){
+			else if(i < (3 * linesOfCountry)){
 				data3.push(data[i]);
 			}
 			else{
 				data4.push(data[i]);
 			}
-		}
+	}	
 		
 	if(Object.keys(queryResults[1]).length - 2 > 1){
 			maxColumnValue = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]) 
 			for(i = 3; i < Object.keys(queryResults[1]).length; i++){
-				console.log(biggerData[Object.keys(queryResults[1])[3]]);
 				//first = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i-1]])
 				second = d3.max(biggerData, d => d[Object.keys(queryResults[1])[i]])
 				if(maxColumnValue < second){
@@ -103,9 +112,9 @@ function draw(){
 				}
 			}
 			
-		}
+	}
 		
-	if(data.length > 60){ //added for one counrty case!!!!!!!!!
+	if(data.length > linesOfCountry){ //added for one counrty case!!!!!!!!!
 			
 			tempMax = d3.max(data1, d => d[Object.keys(queryResults[1])[maxColumn]]);
 			currentMax = d3.max(data2, d => d[Object.keys(queryResults[1])[maxColumn]]);
@@ -117,14 +126,14 @@ function draw(){
 				biggerData = data2;
 			}
 	}
-	if(data.length > 120){ //added for one counrty case!!!!!!!!!
+	if(data.length > (2 * linesOfCountry)){ //added for one counrty case!!!!!!!!!
 			tempMax = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]);
 			currentMax = d3.max(data3, d => d[Object.keys(queryResults[1])[2]]);
 			if(tempMax < currentMax){
 				biggerData = data3; 
 			}
 	}
-	if(data.length > 180){ //added for one counrty case!!!!!!!!!
+	if(data.length > (3 * linesOfCountry)){ //added for one counrty case!!!!!!!!!
 			tempMax = d3.max(biggerData, d => d[Object.keys(queryResults[1])[2]]);
 			currentMax = d3.max(data4, d => d[Object.keys(queryResults[1])[2]]);
 			if(tempMax < currentMax){
@@ -140,7 +149,7 @@ function draw(){
     var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
         .y(function(d) { return yScale(d[Object.keys(queryResults[1])[2]]); }) // set the y values for the line generator 
-        .curve(d3.curveMonotoneX) // apply smoothing to the line
+        //.curve(d3.curveMonotoneX) // apply smoothing to the line
 
     var svg = d3.select("svg")
         .attr("width", width + margin.left + margin.right)
@@ -157,9 +166,7 @@ function draw(){
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
         .attr("transform", "rotate(-45)");
- // Create an axis component with d3.axisBottom
 
-    // 4. Call the y axis in a group tag
     svg.append("g")
         .attr("class", "y axis")
         .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
@@ -182,7 +189,7 @@ function draw(){
     document.getElementById("legend").appendChild(ydot);
     document.getElementById("legend").appendChild(line1color);
 	
-	if (data.length > 60){
+	if (data.length > linesOfCountry){
    		svg.append("path")
         .datum(data2) // 10. Binds data to the line 
         .attr("class", "line") // Assign a class for styling 
@@ -201,7 +208,7 @@ function draw(){
 		document.getElementById("legend").appendChild(steelblueDot);
 		document.getElementById("legend").appendChild(line2color);
     }
-    if (data.length > 120){
+    if (data.length > (2 * linesOfCountry)){
 
    		svg.append("path")
         .datum(data3) // 10. Binds data to the line 
@@ -221,7 +228,7 @@ function draw(){
 		document.getElementById("legend").appendChild(bdot);
 		document.getElementById("legend").appendChild(line3color);
     }
-    if (data.length > 180){
+    if (data.length > (3 * linesOfCountry)){
    	
    		svg.append("path")
         .datum(data4)  
@@ -241,12 +248,12 @@ function draw(){
 		document.getElementById("legend").appendChild(line4color);
     }
 	
-	if(Object.keys(queryResults[1]).length > 3 && data.length === 60){ 
+	if(Object.keys(queryResults[1]).length > 3 && data.length === linesOfCountry){ 
 		
 		var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
         .y(function(d) { return yScale(d[Object.keys(queryResults[1])[3]]); })
-        .curve(d3.curveMonotoneX) // apply smoothing to the line
+        //.curve(d3.curveMonotoneX) // apply smoothing to the line
 		
 		svg.append("path")
         .datum(data1)  
@@ -266,12 +273,12 @@ function draw(){
 		document.getElementById("legend").appendChild(indicator2Color);
 	}
 	
-	if(Object.keys(queryResults[1]).length > 4 && data.length === 60){ //added for one counrty case!!!!!!!!!
+	if(Object.keys(queryResults[1]).length > 4 && data.length === linesOfCountry){ //added for one counrty case!!!!!!!!!
 		
 		var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
         .y(function(d) { return yScale(d[Object.keys(queryResults[1])[4]]); })
-        .curve(d3.curveMonotoneX) // apply smoothing to the line
+        //.curve(d3.curveMonotoneX) // apply smoothing to the line
 		
 		svg.append("path")
         .datum(data1)  
@@ -291,12 +298,12 @@ function draw(){
 		document.getElementById("legend").appendChild(indicator3Color);
 	}
 	
-	if(Object.keys(queryResults[1]).length > 5 && data.length === 60){ //added for one counrty case!!!!!!!!!
+	if(Object.keys(queryResults[1]).length > 5 && data.length === linesOfCountry){ //added for one counrty case!!!!!!!!!
 		
 		var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
         .y(function(d) { return yScale(d[Object.keys(queryResults[1])[5]]); })
-        .curve(d3.curveMonotoneX) // apply smoothing to the line
+        //.curve(d3.curveMonotoneX) // apply smoothing to the line
 		
 		svg.append("path")
         .datum(data1)  
@@ -316,11 +323,11 @@ function draw(){
 		document.getElementById("legend").appendChild(indicator4Color);
 	}
 	
-	if (data.length === 120 && Object.keys(queryResults[1]).length > 3){
+	if (data.length === (2 * linesOfCountry) && Object.keys(queryResults[1]).length > 3){
 		var line = d3.line()
         .x(function(d) { return xScale(d.year); }) // set the x values for the line generator
         .y(function(d) { return yScale(d[Object.keys(queryResults[1])[3]]); })
-        .curve(d3.curveMonotoneX) // apply smoothing to the line
+        //.curve(d3.curveMonotoneX) // apply smoothing to the line
 				
 		svg.append("path")
         .datum(data1) // 10. Binds data to the line 

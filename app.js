@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var queryResults = {};
 var passwd = "";
-
+var countries = {'count': 1};
 //get mysql server password 
 var rl = readline.createInterface({
   input: process.stdin,
@@ -21,7 +21,7 @@ rl.question('mysql-server password: ', function(password) {
 
 rl._writeToOutput = function _writeToOutput(stringToWrite) {
   if (rl.stdoutMuted)
-    rl.output.write("*");
+    rl.output.write("");
   else
     rl.output.write(stringToWrite);
 };
@@ -84,9 +84,16 @@ var server = http.createServer(function(req, res){
     	res.write(JSON.stringify(queryResults));
     	res.end();
        	break;
+    
+    case  '/countriesCount':
+    	res.writeHead(200, {'Content-Type': 'application/json'});
+    	res.write(JSON.stringify(countries));
+    	res.end();
+       	break;
+
       
     case '/query':
-	
+		countries = {'count': 1};
 		let body = '';
 		req.on('data', chunk => {
 			body += chunk.toString(); // convert Buffer to string
@@ -112,7 +119,15 @@ var server = http.createServer(function(req, res){
 			queryResults = JSON.parse(values);
 			console.log(queryResults.length);
 			//console.log(obj[obj.length - 4][Object.keys(obj[obj.length - 4])[0]]);
-			
+			country = queryResults[0].country_code;
+			console.log(country);
+			for (var i = 1; i < queryResults.length; i++){
+				if (country !== queryResults[i].country_code){
+					countries.count++;
+					country = queryResults[i].country_code;
+				}			
+			}
+			console.log(countries);
 			setTimeout(function(){}, 600);
 			con.end();
 			});
@@ -121,7 +136,7 @@ var server = http.createServer(function(req, res){
 			
 			
       break;
-    
+       
     default:
       res.writeHead(404, {'Content-Type': 'text/plain-text'});
       res.end('Page not found');

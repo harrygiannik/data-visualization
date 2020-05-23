@@ -50,8 +50,6 @@ def fill_new_list():
 	return output_list
 def compute_avg(list_, years):
 	all_counrties_list =[]
-	sum_list = [0.0]*12
-	not_null_years = [0]*12
 	for i in range(len(list_)):
 		grouped_list=[]
 		for r in range (0, 60, years):
