@@ -68,6 +68,16 @@ var server = http.createServer(function(req, res){
       res.writeHead(200, {'Content-Type': 'application/javascript'});
       fs.createReadStream(__dirname + '/lineCharts.js').pipe(res);
       break;
+      
+    case '/scatterPlots':
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      fs.createReadStream(__dirname + '/scatterPlots.html').pipe(res);
+      break;
+    
+    case '/scatterPlots.js':
+      res.writeHead(200, {'Content-Type': 'application/javascript'});
+      fs.createReadStream(__dirname + '/scatterPlots.js').pipe(res);
+      break;
     
     case '/getData':
     	res.writeHead(200, {'Content-Type': 'application/json'});
