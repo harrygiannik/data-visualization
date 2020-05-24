@@ -367,4 +367,5 @@ function draw(){
 	
 	
 	});
+	document.getElementById("nav").style.width = "100%";
 }
