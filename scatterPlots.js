@@ -117,7 +117,7 @@ function draw(){
 		document.getElementById("legend").appendChild(line4color);
 */
   });
-  document.getElementById("nav").style.width = "100%";
+  document.getElementById("nav").style.marginRight = "0px";
 }
 
 

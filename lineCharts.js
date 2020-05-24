@@ -367,5 +367,5 @@ function draw(){
 	
 	
 	});
-	document.getElementById("nav").style.width = "100%";
+	document.getElementById("nav").style.width = "0px";
 }
