@@ -273,9 +273,6 @@ function draw(){
 			document.getElementById("legend").appendChild(indicator3Color);
 			}
 		});
-
-		document.getElementById("nav").style.width = "0px";
-
 		
 
 }

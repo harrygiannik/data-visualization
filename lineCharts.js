@@ -77,8 +77,7 @@ function draw(){
 
     d3.json("/getData", function(error, data) {
     var xExtent = d3.extent(data, d => d.year);
-    var xScale = d3.scaleBand().rangeRound([0, width])	
-    	.domain(data.map(d => d.year));
+    var xScale = d3.scalePoint().domain(data.map(d => d.year)).range([0, width - margin.right]);
     
    	data1 = []
    	data2 = []
@@ -157,10 +156,12 @@ function draw(){
     .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale))
+        .call(d3.axisBottom(xScale).ticks(linesOfCountry))
         .selectAll("text")	
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
@@ -367,5 +368,4 @@ function draw(){
 	
 	
 	});
-	document.getElementById("nav").style.width = "0px";
 }
