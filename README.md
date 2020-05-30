@@ -5,7 +5,7 @@ Data visualization using [d3.js](https://d3js.org/), [Node.js](https://nodejs.or
 ## Installation
 * Install mysql-server, apache2, mysql-workbench
 * Install nodejs and node package manager (npm)
-* run`npm install mysql` on terminal
+* run `npm install mysql` on terminal
 
 ## Usage
 1. start mysql-workbench
