@@ -109,13 +109,7 @@ function draw(){
 		yLegend.style.float = "center";
 		yLegend.innerText = "Vertical axis: " + getIndicName(data[0].country_code) + " " + getIndicName(Object.keys(queryResults[1])[2]);
 		document.getElementById("legend").appendChild(yLegend);
-/*		var blackDot = document.createElement("P");
-		steelblueDot.innerText = "\u220E";
-		steelblueDot.style.float = "left";
-		steelblueDot.style.color = "peru";
-		document.getElementById("legend").appendChild(steelblueDot);
-		document.getElementById("legend").appendChild(line4color);
-*/
+
   });
 }
 
