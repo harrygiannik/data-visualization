@@ -86,7 +86,6 @@ function controlElements() {
 
 function analyzeQuery() {
   var linesOfCountry = queryResults.length / countriesCount;
-  console.log(linesOfCountry);
   countries = queryResults.length / linesOfCountry;
   indicators = Object.keys(queryResults[1]).length - 2;
 

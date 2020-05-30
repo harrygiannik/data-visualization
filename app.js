@@ -107,21 +107,17 @@ var server = http.createServer(function (req, res) {
 
       con.connect(function (err) {
         if (err) throw err;
-        console.log(body);
         con.query(body, function (err, result, fields) {
           if (err) throw err;
           var values = JSON.stringify(result);
           queryResults = JSON.parse(values);
-          console.log(queryResults.length);
           country = queryResults[0].country_code;
-          console.log(country);
           for (var i = 1; i < queryResults.length; i++) {
             if (country !== queryResults[i].country_code) {
               countries.count++;
               country = queryResults[i].country_code;
             }
           }
-          console.log(countries);
           setTimeout(function () {}, 600);
           con.end();
         });
