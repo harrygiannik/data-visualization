@@ -1,6 +1,11 @@
 import csv 
 
-Indicators_list = ["AG.LND.FRST.ZS", "SH.XPD.CHEX.GD.ZS", "EG.ELC.ACCS.ZS", "SE.PRM.UNER.MA.ZS", "SE.PRM.UNER.FE.ZS", "TM.VAL.FUEL.ZS.UN", "TX.VAL.FUEL.ZS.UN", "MS.MIL.XPND.GD.ZS", "IP.JRN.ARTC.SC", "SL.UEM.1524.MA.NE.ZS", "SL.UEM.1524.FE.NE.ZS", "ST.INT.ARVL"]
+Indicators_list = ["AG.LND.FRST.ZS", "SH.XPD.CHEX.GD.ZS",
+ "EG.ELC.ACCS.ZS", "SE.PRM.UNER.MA.ZS",
+  "SE.PRM.UNER.FE.ZS", "TM.VAL.FUEL.ZS.UN", 
+  "TX.VAL.FUEL.ZS.UN", "MS.MIL.XPND.GD.ZS",
+   "IP.JRN.ARTC.SC", "SL.UEM.1524.MA.NE.ZS",
+    "SL.UEM.1524.FE.NE.ZS", "ST.INT.ARVL"]
 
 country_list = ["alb", "cyp", "grc", "arg", "aus", "bgr", "chl", "cub", "cze", "dnk", "fra", "bra"]
 
@@ -30,7 +35,6 @@ def fill_new_list():
 
 	for i in range (60):
 		output_list.append(['', '', '', '', '', '', '', '', '', '', '', '', '', ''])
-
 
 	for row in new_data:
 		for i in range (4, len(row)):
