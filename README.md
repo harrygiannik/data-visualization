@@ -17,5 +17,11 @@ on MySQL-workbench go to file/Open Model and select data_schema.mwb or click ope
 6. enter your mysql password.
 7. open a browser and go to [localhost:3011](http://localhost:3011/) .
 8. now you are ready and you can select countries and indicators to see some graphs.
+
+## Screenshots
+
+## Data Source
+[World Bank Data](http://data.worldbank.org/)
+
 # TODO
 add more things in decription here, and credits/licence
