@@ -1,6 +1,8 @@
 # data-visualization
 ## Description
-Data visualization using [d3.js](https://d3js.org/), [Node.js](https://nodejs.org/en/) and [mysql](https://www.mysql.com/). 
+Data visualization using [d3.js](https://d3js.org/), [Node.js](https://nodejs.org/en/) and [mysql](https://www.mysql.com/).
+
+This project reads data from a database and creates bar/line charts and scatter plots. 
 
 ## Installation
 * Install mysql-server, apache2, mysql-workbench
@@ -17,6 +19,11 @@ on MySQL-workbench go to file/Open Model and select data_schema.mwb or click ope
 6. enter your mysql password.
 7. open a browser and go to [localhost:3011](http://localhost:3011/) .
 8. now you are ready and you can select countries and indicators to see some graphs.
+
+## Contributors
+* [Charis Giannikopoulos](https://github.com/harrygiannik)
+* [Nick Orestis Ntallas](https://github.com/nontallas)
+* [Aris Siozos](https://github.com/ariss95)
 
 ## Data Source
 [World Bank Data](http://data.worldbank.org/)
