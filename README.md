@@ -2,7 +2,7 @@
 ## Description
 Data visualization using [d3.js](https://d3js.org/), [Node.js](https://nodejs.org/en/) and [mysql](https://www.mysql.com/).
 
-This project reads data from a database and creates bar/line charts and scatter plots. It was created for educational puproses, under the course of [cs.uoi.gr/~pvassil/courses/db_III/](http://www.cs.uoi.gr/~pvassil/courses/db_III/) 
+This project reads data from a database and creates bar/line charts and scatter plots. It was created for educational purposes, under the course of [cs.uoi.gr/~pvassil/courses/db_III/](http://www.cs.uoi.gr/~pvassil/courses/db_III/) 
 
 ## Installation
 * Install mysql-server, apache2, mysql-workbench
