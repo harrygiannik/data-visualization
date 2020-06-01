@@ -36,3 +36,6 @@ on MySQL-workbench go to file/Open Model and select data_schema.mwb or click ope
 
 
 ![barchart](/images/barchart.png)
+
+
+![linechart](/images/linechart.png)
